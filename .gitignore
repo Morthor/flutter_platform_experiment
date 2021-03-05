@@ -9,7 +9,7 @@
 .history
 .svn/
 
-production_server_address.dart
+lib/production_server_address.dart
 
 # IntelliJ related
 *.iml
