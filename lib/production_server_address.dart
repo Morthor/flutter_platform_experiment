@@ -1,0 +1,1 @@
+const String PROD_SERVER = 'ws://lostexiles.com:3000';

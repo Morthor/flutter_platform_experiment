@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_experiment/production_server_address.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:flutter_platform_experiment/socket_channel_manager.dart';
 
@@ -6,7 +7,7 @@ const bool PRODUCTION = false;
 
 String webSocketServer(){
   if(PRODUCTION){
-    return 'ws://lostexiles.com:3000';
+    return PROD_SERVER;
   }else {
     if (UniversalPlatform.isAndroid) {
       return 'ws://10.0.2.2:3000';
@@ -15,8 +16,6 @@ String webSocketServer(){
     }
   }
 }
-
-
 
 void main() => runApp(
   MaterialApp(home: MyApp()),
@@ -38,9 +37,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    channel = SocketChannelManager.instance.connect(
-      UniversalPlatform.isWeb ? 'ws://127.0.0.1:3000' : webSocketServer()
-    );
+    channel = SocketChannelManager.instance.connect(webSocketServer());
 
     channel.stream.listen((snapshot) {
       print(snapshot.toString());
@@ -71,7 +68,10 @@ class _MyAppState extends State<MyApp> {
                 itemBuilder: (context, index) {
                   return Text(messages[index] == null
                       ? ""
-                      : '${messages[index]}');
+                      : '${messages[index]}',
+                  style: TextStyle(
+                    fontSize: 30,
+                  ));
                 }
               ),
             ),

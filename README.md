@@ -1,16 +1,25 @@
 # flutter_platform_experiment
 
-A new Flutter application.
+An experiment on using Flutter across multiple platforms
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+You will need to use a separate project running a very basic nodejs websocket server, which you can find here: https://github.com/Morthor/node_basic_websocket
 
-A few resources to get you started if this is your first Flutter project:
+### Get packages
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+`flutter pub get`
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Run on Android
+`flutter run -d android`
+
+### Run on iOS
+`flutter run -d ios`
+
+### Run on Web
+`flutter config --enable-web`
+
+`flutter create .`
+
+`flutter run -d web`
+
