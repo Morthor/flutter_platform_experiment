@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_experiment/production_server_address.dart';
+
 import 'package:universal_platform/universal_platform.dart';
 import 'package:flutter_platform_experiment/socket_channel_manager.dart';
 
@@ -7,7 +7,7 @@ const bool PRODUCTION = false;
 
 String webSocketServer(){
   if(PRODUCTION){
-    return PROD_SERVER;
+    return '';
   }else {
     if (UniversalPlatform.isAndroid) {
       return 'ws://10.0.2.2:3000';
