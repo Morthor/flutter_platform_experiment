@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_experiment/production_server_address.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:flutter_platform_experiment/socket_channel_manager.dart';
