@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
     channel = SocketChannelManager.instance.connect(webSocketServer());
 
     channel.stream.listen((snapshot) {
-      print(snapshot.toString());
       setState(() {
         messages.insert(0, snapshot.toString());
       });
@@ -168,9 +167,7 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(message);
     List<String> _complexMessage = message.split(':');
-    print(_complexMessage);
     return TextBubble(
       platform: _complexMessage[0],
       message: _complexMessage[1].trimRight().toString(),
