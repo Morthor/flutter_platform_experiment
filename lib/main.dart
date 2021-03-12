@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
       setState(() {
         messages.insert(0, snapshot.toString());
       });
-
     });
+
     super.initState();
   }
 
