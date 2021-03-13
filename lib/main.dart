@@ -58,8 +58,11 @@ class _MyAppState extends State<MyApp> {
 
   // Actions
   void sendMessage(){
-    sendToWebSocket(_textEditingController.text);
-    _textEditingController.clear();
+    String message = _textEditingController.text;
+    if(message!= null && message != ''){
+      sendToWebSocket(_textEditingController.text);
+      _textEditingController.clear();
+    }
   }
 
   // Operations
