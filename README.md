@@ -44,5 +44,5 @@ You will need to use a separate project running a very basic nodejs websocket se
 `flutter run -d macos`
 
 ---
-You can also run the app on the different platforms through your the interface of Android Studio or Visual Studio Code.
+You can also run the app on the different platforms through the interface of Android Studio or Visual Studio Code.
 
