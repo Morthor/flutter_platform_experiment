@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Multi Platform'),
+        title: Text('Multi Platform - ${getPlatform()}'),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
