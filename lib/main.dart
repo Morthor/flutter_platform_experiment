@@ -4,7 +4,7 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:flutter_platform_experiment/socket_channel_manager.dart';
 
 // Production flag
-const bool PRODUCTION = false;
+const bool PRODUCTION = true;
 
 void main() => runApp(
   MaterialApp(home: MyApp()),
@@ -18,27 +18,32 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var channel;
   TextEditingController _textEditingController = TextEditingController();
-  List<String> messages = [];
+  List<String> messages = List<String>.empty(growable: true);
 
   @override
-  void initState() {
-    channel = SocketChannelManager.instance.connect(webSocketServer());
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    webSocketConnect();
+  }
 
-    channel.stream.listen((snapshot) {
-      setState(() {
-        messages.insert(0, snapshot.toString());
-      });
-    });
-
-    super.initState();
+  @override
+  void dispose() {
+    channel.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Multi Platform - ${getPlatform()}'),
+        title: Text('Multi Platform - $platform'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: reconnectToWebSocket
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       body: Padding(
@@ -67,8 +72,41 @@ class _MyAppState extends State<MyApp> {
 
   // Operations
   void sendToWebSocket(String message) {
-    String platform = getPlatform();
     channel.sink.add('$platform: $message');
+  }
+
+  Future<bool> webSocketConnect() async {
+    try{
+      channel = SocketChannelManager.instance.connect(webSocketServer());
+      print('WebSocket Connected');
+
+      channel.stream.listen((snapshot) {
+        setState(() {
+          messages.insert(0, snapshot.toString());
+        });
+      });
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
+  void reconnectToWebSocket(){
+    webSocketConnect().then((connected) {
+      if(connected) {
+        showSnackMessage('Connected');
+      } else{
+        showSnackMessage('Failed to connect');
+      }
+    });
+  }
+
+  void showSnackMessage(String message){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      duration: const Duration(seconds: 1),
+    ));
   }
 
   // Address helper method
@@ -85,6 +123,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Platform String helper
+  String get platform => getPlatform();
+
   String getPlatform(){
     if(UniversalPlatform.isWeb)
       return 'Web';
