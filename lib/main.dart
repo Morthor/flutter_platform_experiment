@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_experiment/production_server_address.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:flutter_platform_experiment/socket_channel_manager.dart';
+import 'package:flutter_platform_experiment/web_socket_manager/socket_channel_manager.dart';
 
 // Production flag
 const bool PRODUCTION = false;
@@ -67,8 +67,7 @@ class _MyAppState extends State<MyApp> {
 
   // Operations
   void sendToWebSocket(String message) {
-    String platform = getPlatform();
-    channel.sink.add('$platform: $message');
+    channel.sink.add('${getPlatform()}: $message');
   }
 
   // Address helper method
@@ -82,32 +81,6 @@ class _MyAppState extends State<MyApp> {
         return 'ws://127.0.0.1:3000';
       }
     }
-  }
-
-  // Platform String helper
-  String getPlatform(){
-    if(UniversalPlatform.isWeb)
-      return 'Web';
-
-    if(UniversalPlatform.isAndroid)
-      return 'Android';
-
-    if(UniversalPlatform.isFuchsia)
-      return 'Fuchsia';
-
-    if(UniversalPlatform.isIOS)
-      return 'iOS';
-
-    if(UniversalPlatform.isLinux)
-      return 'Linux';
-
-    if(UniversalPlatform.isMacOS)
-      return 'MacOS';
-
-    if(UniversalPlatform.isWindows)
-      return 'Windows';
-
-    return 'Platform?';
   }
 }
 
@@ -153,9 +126,9 @@ class Controls extends StatelessWidget {
           ),
         ),
         TextButton.icon(
-            onPressed: sendMessage,
-            icon: Icon(Icons.send),
-            label: Text("Send")
+          onPressed: sendMessage,
+          icon: Icon(Icons.send),
+          label: Text("Send")
         ),
       ],
     );
@@ -211,4 +184,30 @@ class TextBubble extends StatelessWidget {
       ),
     );
   }
+}
+
+// Platform String helper
+String getPlatform(){
+  if(UniversalPlatform.isWeb)
+    return 'Web';
+
+  if(UniversalPlatform.isAndroid)
+    return 'Android';
+
+  if(UniversalPlatform.isFuchsia)
+    return 'Fuchsia';
+
+  if(UniversalPlatform.isIOS)
+    return 'iOS';
+
+  if(UniversalPlatform.isLinux)
+    return 'Linux';
+
+  if(UniversalPlatform.isMacOS)
+    return 'MacOS';
+
+  if(UniversalPlatform.isWindows)
+    return 'Windows';
+
+  return 'Platform?';
 }
